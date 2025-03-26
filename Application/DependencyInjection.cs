@@ -15,25 +15,19 @@ public static class DependencyInjection
         services.AddMassTransit(config =>
         {
             config.SetKebabCaseEndpointNameFormatter();
-            config.AddConsumer<UserRegisteredConsumer>();
+            config.AddConsumer<UserCreatedConsumer>();
             
             config.UsingRabbitMq((ctx, cfg) =>
             {
-                // cfg.Host(mqConnection["Host"], mqConnection["VirtualHost"], h =>
-                // {
-                //     h.Username(mqConnection["Username"]);
-                //     h.Password(mqConnection["Password"]);
-                // });
-                
-                cfg.Host("localhost", h =>
+                cfg.Host(mqConnection["Host"], mqConnection["VirtualHost"], h =>
                 {
-                    h.Username("will-e");
-                    h.Password("wille");
+                    h.Username(mqConnection["Username"]);
+                    h.Password(mqConnection["Password"]);
                 });
                 
-                cfg.ReceiveEndpoint("product-owner", e =>
+                cfg.ReceiveEndpoint("user-created", e =>
                 {
-                    e.ConfigureConsumer<UserRegisteredConsumer>(ctx);
+                    e.ConfigureConsumer<UserCreatedConsumer>(ctx);
                 });
                 
             });
