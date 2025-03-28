@@ -18,36 +18,21 @@ public class UserCreatedConsumer : IConsumer<UserCreated>
 
     public Task Consume(ConsumeContext<UserCreated> context)
     {
+        string filePath = $"D:\\Capstone\\dtp-service\\Application\\Templates\\WelcomeTemplate.html";
+        
+        StreamReader str = new StreamReader(filePath);
+        string MailText = str.ReadToEnd();
+        str.Close();
+        MailText = MailText.Replace("[username]", context.Message.UserName).Replace("[password]", context.Message.Password);
+        var subject = $"Welcome {context.Message.Name}";
+        _emailService.SendEmailAsync(context.Message.Email, subject, MailText);
+    
         _logger.LogInformation(
-            "User Registered: {Name}, {Email}, {Password}",
-            context.Message.UserName, context.Message.Email,
-            context.Message.Password
+            "Received UserCreated event from queue: Name={Name}, UserName={UserName}, Email={Email}",
+            context.Message.Name, 
+            context.Message.UserName, 
+            context.Message.Email
         );
-    
-        var messageBody = $@"
-        <div style=""font-family:Arial,Helvetica,sans-serif;font-size:16px;line-height:1.6;color:#333;"">
-            <p>Hi {context.Message.UserName},</p>
-            <p>Thank you for creating an account at <strong>Dot Net Tutorials</strong>.
-            To start enjoying all of our features, please confirm your email address by clicking the button below:</p>
-            <p>
-                <a href=""{context.Message.UserName}"" 
-                   style=""background-color:#007bff;color:#fff;padding:10px 20px;text-decoration:none;
-                          font-weight:bold;border-radius:5px;display:inline-block;"">
-                    Confirm Email
-                </a>
-            </p>
-            <p>If the button doesn’t work for you, copy and paste the following URL into your browser:
-                <br />
-                <a href=""{context.Message.UserName}"" style=""color:#007bff;text-decoration:none;"">{context.Message.UserName}</a>
-            </p>
-            <p>If you did not sign up for this account, please ignore this email.</p>
-            <p>Thanks,<br />
-            The Dot Net Tutorials Team</p>
-        </div>
-        ";
-    
-        _emailService.SendEmailAsync(context.Message.Email, "Confirm Mail", messageBody);
-    
         return Task.CompletedTask;
     }
 }

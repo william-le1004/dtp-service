@@ -22,7 +22,9 @@ public class EmailService : IEmailService
         email.From.Add(new MailboxAddress(_emailSettings.Name, _emailSettings.FromEmail));
         email.To.Add(new MailboxAddress("", to));
         email.Subject = subject;
-        email.Body = new TextPart("html") { Text = body };
+        var builder = new BodyBuilder();
+        builder.HtmlBody = body;
+        email.Body = builder.ToMessageBody();
 
         using var smtp = new SmtpClient();
         await smtp.ConnectAsync(_emailSettings.Server, _emailSettings.Port, SecureSocketOptions.StartTls);
