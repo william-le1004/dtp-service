@@ -18,19 +18,22 @@ public class UserCreatedConsumer : IConsumer<UserCreated>
 
     public Task Consume(ConsumeContext<UserCreated> context)
     {
-        string filePath = $"D:\\Capstone\\dtp-service\\Application\\Templates\\WelcomeTemplate.html";
-        
-        StreamReader str = new StreamReader(filePath);
-        string MailText = str.ReadToEnd();
+        string filePath2 = Path.Combine(Directory.GetCurrentDirectory(), "..", "Application", "Templates",
+            "WelcomeTemplate.html");
+        filePath2 = Path.GetFullPath(filePath2);
+
+        StreamReader str = new StreamReader(filePath2);
+        string mailText = str.ReadToEnd();
         str.Close();
-        MailText = MailText.Replace("[username]", context.Message.UserName).Replace("[password]", context.Message.Password);
+        mailText = mailText.Replace("[username]", context.Message.UserName)
+            .Replace("[password]", context.Message.Password);
         var subject = $"Welcome {context.Message.Name}";
-        _emailService.SendEmailAsync(context.Message.Email, subject, MailText);
-    
+        _emailService.SendEmailAsync(context.Message.Email, subject, mailText);
+
         _logger.LogInformation(
             "Received UserCreated event from queue: Name={Name}, UserName={UserName}, Email={Email}",
-            context.Message.Name, 
-            context.Message.UserName, 
+            context.Message.Name,
+            context.Message.UserName,
             context.Message.Email
         );
         return Task.CompletedTask;
