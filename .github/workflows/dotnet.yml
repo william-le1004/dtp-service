@@ -80,6 +80,9 @@ jobs:
 
             echo "Removing old container..."
             docker rm $CONTAINER_NAME || true
+            
+            echo "Removing old image..."
+            docker images --format "{{.Repository}}:{{.Tag}} {{.ID}}" | grep "${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_IMAGES }}" | grep -v "latest" | awk '{print $2}' | xargs -r docker rmi -f
 
             echo "Starting new container..."
             docker run -d \
