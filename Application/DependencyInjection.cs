@@ -1,4 +1,5 @@
 using Application.Consumers;
+using Application.Consumers.Wallet;
 using MassTransit;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,7 +17,8 @@ public static class DependencyInjection
         {
             config.SetKebabCaseEndpointNameFormatter();
             config.AddConsumer<UserCreatedConsumer>();
-            
+            config.AddConsumer<TransactionRecordedConsumer>();
+
             config.UsingRabbitMq((ctx, cfg) =>
             {
                 cfg.Host(mqConnection["Host"], mqConnection["VirtualHost"], h =>
@@ -24,15 +26,19 @@ public static class DependencyInjection
                     h.Username(mqConnection["Username"]);
                     h.Password(mqConnection["Password"]);
                 });
-                
+
                 cfg.ReceiveEndpoint("user-created", e =>
                 {
                     e.ConfigureConsumer<UserCreatedConsumer>(ctx);
                 });
-                
+
+                cfg.ReceiveEndpoint("transaction-recorded", e =>
+                {
+                    e.ConfigureConsumer<TransactionRecordedConsumer>(ctx);
+                });
             });
         });
-        
+
         return services;
     }
 }
