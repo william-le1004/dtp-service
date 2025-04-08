@@ -1,5 +1,5 @@
 ﻿using Application.Contracts;
-using Application.Messaging.Wallet;
+using Application.Events.Wallet;
 using MassTransit;
 using Microsoft.Extensions.Logging;
 

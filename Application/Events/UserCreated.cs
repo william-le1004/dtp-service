@@ -1,4 +1,4 @@
-namespace Application.Messaging;
+namespace Application.Events;
 
 public record UserCreated
 {

@@ -19,20 +19,12 @@ public static class DependencyInjection
             config.AddConsumer<UserCreatedConsumer>();
             config.AddConsumer<TransactionRecordedConsumer>();
 
-            config.AddConsumer<EmailConfirmedConsumer>();
-            
             config.UsingRabbitMq((ctx, cfg) =>
             {
-                // cfg.Host(mqConnection["Host"], mqConnection["VirtualHost"], h =>
-                // {
-                //     h.Username(mqConnection["Username"]);
-                //     h.Password(mqConnection["Password"]);
-                // });
-                
-                cfg.Host("localhost", h =>
+                cfg.Host(mqConnection["Host"], mqConnection["VirtualHost"], h =>
                 {
-                    h.Username("will-e");
-                    h.Password("wille");
+                    h.Username(mqConnection["Username"]);
+                    h.Password(mqConnection["Password"]);
                 });
 
                 cfg.ReceiveEndpoint("user-created", e =>
@@ -44,12 +36,6 @@ public static class DependencyInjection
                 {
                     e.ConfigureConsumer<TransactionRecordedConsumer>(ctx);
                 });
-                
-                cfg.ReceiveEndpoint("email-confirmed", e =>
-                {
-                    e.ConfigureConsumer<EmailConfirmedConsumer>(ctx);
-                });
-                
             });
         });
 
