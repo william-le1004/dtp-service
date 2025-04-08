@@ -1,5 +1,5 @@
 using Application.Contracts;
-using Application.Events;
+using Application.Messaging;
 using MassTransit;
 using Microsoft.Extensions.Logging;
 
@@ -19,7 +19,7 @@ public class UserCreatedConsumer : IConsumer<UserCreated>
     public Task Consume(ConsumeContext<UserCreated> context)
     {
         var body = MessageBody(context);
-        var subject = $"Welcome {context.Message.Name}";
+        var subject = $"Chào Mừng {context.Message.Name}";
         _emailService.SendEmailAsync(context.Message.Email, subject, body);
 
         _logger.LogInformation(
@@ -202,18 +202,18 @@ public class UserCreatedConsumer : IConsumer<UserCreated>
                                                                     <p
                                                                         style=""Margin:0;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;
                                                                         line-height:24px;letter-spacing:0;color:#666666;font-size:16px"">
-                                                                        Your login: {context.Message.UserName}</p>
+                                                                        Tài Khoản: {context.Message.UserName}</p>
 
                                                                     <p
                                                                         style=""Margin:0;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;
                                                                         line-height:24px;letter-spacing:0;color:#666666;font-size:16px"">
-                                                                        Your password: {context.Message.Password}</p>
+                                                                        Mật Khẩu: {context.Message.Password}</p>
                                                                     <p
                                                                         style=""Margin:0;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;
                                                                         line-height:24px;letter-spacing:0;color:#666666;font-size:16px"">
-                                                                        You can change password <a target=""_blank""
+                                                                        Bạn có thể thay đổi mật khẩu <a target=""_blank""
                                                                             href=""""
-                                                                            style=""mso-line-height-rule:exactly;text-decoration:underline;color:#999999;font-size:16px"">here</a>.
+                                                                            style=""mso-line-height-rule:exactly;text-decoration:underline;color:#999999;font-size:16px"">tại đây</a>.
                                                                     </p>
                                                                 </td>
                                                             </tr>
