@@ -1,4 +1,4 @@
-﻿namespace Application.Messaging.Wallet;
+﻿namespace Application.Events.Wallet;
 
 public record TransactionRecordedIntegrationEvent(
     string Email,
