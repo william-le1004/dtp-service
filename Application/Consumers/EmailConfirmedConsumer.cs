@@ -5,24 +5,16 @@ using Microsoft.Extensions.Logging;
 
 namespace Application.Consumers;
 
-public class EmailConfirmedConsumer : IConsumer<EmailConfirmed>
+public class EmailConfirmedConsumer(ILogger<EmailConfirmedConsumer> logger, IEmailService emailService)
+    : IConsumer<EmailConfirmed>
 {
-    private readonly ILogger<EmailConfirmedConsumer> _logger;
-    private readonly IEmailService _emailService;
-
-    public EmailConfirmedConsumer(ILogger<EmailConfirmedConsumer> logger, IEmailService emailService)
-    {
-        _logger = logger;
-        _emailService = emailService;
-    }
-
     public Task Consume(ConsumeContext<EmailConfirmed> context)
     {
         var messageBody = MessageBody(context);
         var subject = "Xác Thực Tài Khoản";
-        _emailService.SendEmailAsync(context.Message.Email, subject, messageBody);
+        emailService.SendEmailAsync(context.Message.Email, subject, messageBody);
 
-        _logger.LogInformation("Email confirmed at: {Email}", context.Message.Email);
+        logger.LogInformation("Email confirmed at: {Email}", context.Message.Email);
 
         return Task.CompletedTask;
     }
