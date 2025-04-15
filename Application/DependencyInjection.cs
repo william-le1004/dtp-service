@@ -18,7 +18,7 @@ public static class DependencyInjection
             config.SetKebabCaseEndpointNameFormatter();
             config.AddConsumer<UserCreatedConsumer>();
             config.AddConsumer<TransactionRecordedConsumer>();
-
+            config.AddConsumer<UserAuthenticatedConsumer>();
             config.AddConsumer<EmailConfirmedConsumer>();
             
             config.UsingRabbitMq((ctx, cfg) =>
@@ -42,6 +42,11 @@ public static class DependencyInjection
                 cfg.ReceiveEndpoint("email-confirmed", e =>
                 {
                     e.ConfigureConsumer<EmailConfirmedConsumer>(ctx);
+                });
+                
+                cfg.ReceiveEndpoint("user-authenticated", e =>
+                {
+                    e.ConfigureConsumer<UserAuthenticatedConsumer>(ctx);
                 });
                 
             });
