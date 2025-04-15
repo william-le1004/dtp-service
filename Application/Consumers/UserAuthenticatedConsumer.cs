@@ -11,7 +11,7 @@ public class UserAuthenticatedConsumer(ILogger<UserAuthenticatedConsumer> logger
     public Task Consume(ConsumeContext<UserAuthenticated> context)
     {
         var messageBody = MessageBody(context);
-        var subject = "Cảm ơn vì đã chọn chúng tôi";
+        var subject = "Cảm ơn vì đã chọn DTP";
         emailService.SendEmailAsync(context.Message.Email, subject, messageBody);
 
         logger.LogInformation("User Authenticated Successfully at: {Email}", context.Message.Email);

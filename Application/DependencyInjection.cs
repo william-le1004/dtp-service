@@ -20,6 +20,7 @@ public static class DependencyInjection
             config.AddConsumer<TransactionRecordedConsumer>();
             config.AddConsumer<UserAuthenticatedConsumer>();
             config.AddConsumer<EmailConfirmedConsumer>();
+            config.AddConsumer<PasswordForgetConsumer>();
             
             config.UsingRabbitMq((ctx, cfg) =>
             {
@@ -47,6 +48,11 @@ public static class DependencyInjection
                 cfg.ReceiveEndpoint("user-authenticated", e =>
                 {
                     e.ConfigureConsumer<UserAuthenticatedConsumer>(ctx);
+                });
+                
+                cfg.ReceiveEndpoint("password-forget", e =>
+                {
+                    e.ConfigureConsumer<PasswordForgetConsumer>(ctx);
                 });
                 
             });
