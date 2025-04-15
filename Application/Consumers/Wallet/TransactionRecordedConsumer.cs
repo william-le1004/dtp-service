@@ -21,7 +21,7 @@ public class TransactionRecordedConsumer(
                 context.Message.CreatedDate,
                 context.Message.TransactionCode,
                 context.Message.AvailableBalance
-                )
+            )
         );
         logger.LogInformation($"Consumed Listened: Transaction {context.Message.TransactionCode}");
     }
@@ -37,23 +37,23 @@ public class TransactionRecordedConsumer(
         var transactionType = ParseTransactionType(type);
         var mark = transactionType switch
         {
-            TransactionType.Deposit 
-                or TransactionType.Receive 
+            TransactionType.Deposit
+                or TransactionType.Receive
                 or TransactionType.Refund => "+",
-            TransactionType.Withdraw 
-                or TransactionType.Payment 
+            TransactionType.Withdraw
+                or TransactionType.Payment
                 or TransactionType.Transfer
-                or TransactionType.ThirdPartyPayment=> "-",
+                or TransactionType.ThirdPartyPayment => "-",
             TransactionType.Undefined => "",
             _ => ""
         };
 
-        return $@"(DTP): {date:dd/MM/yyyy, HH:mm}
-                   TK: {userName}
-                   PS: {mark}{amount}
-                   SD: {balance}
-                   ND: {description}
-                   SO GD: {transactionCode}";
+        return $@"(DTP): {date:dd/MM/yyyy, HH:mm}<br/>
+                 TK: {userName}<br/>
+                 PS: {mark}{amount}<br/>
+                 SD: {balance}<br/>
+                 ND: {description}<br/>
+                 SO GD: {transactionCode}";
     }
 
 
