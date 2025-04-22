@@ -1,5 +1,6 @@
 using Application.Consumers;
 using Application.Consumers.Wallet;
+using Application.Consumers.Tour;
 using MassTransit;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,6 +22,7 @@ public static class DependencyInjection
             config.AddConsumer<UserAuthenticatedConsumer>();
             config.AddConsumer<EmailConfirmedConsumer>();
             config.AddConsumer<PasswordForgetConsumer>();
+            config.AddConsumer<TourCancelledConsumer>();
             
             config.UsingRabbitMq((ctx, cfg) =>
             {
@@ -53,6 +55,11 @@ public static class DependencyInjection
                 cfg.ReceiveEndpoint("password-forget", e =>
                 {
                     e.ConfigureConsumer<PasswordForgetConsumer>(ctx);
+                });
+
+                cfg.ReceiveEndpoint("tour-cancelled", e =>
+                {
+                    e.ConfigureConsumer<TourCancelledConsumer>(ctx);
                 });
                 
             });
