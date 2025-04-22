@@ -14,7 +14,7 @@ public class TourCancelledConsumer(
         var message = context.Message;
         
         await service.SendEmailAsync(
-            "customer@example.com", // You might want to get this from a configuration or database
+            message.CustomerEmail,
             $"DTP-Hủy tour",
             CreateBody(
                 message.CompanyName,

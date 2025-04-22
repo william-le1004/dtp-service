@@ -10,5 +10,6 @@ public record TourCancelled(
     DateTime StartDate,
     string Remark,
     decimal PaidAmount,
-    decimal RefundAmount
+    decimal RefundAmount,
+    string CustomerEmail
 );
