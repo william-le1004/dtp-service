@@ -1,4 +1,5 @@
 using Application.Consumers;
+using Application.Consumers.Order;
 using Application.Consumers.Wallet;
 using Application.Consumers.Tour;
 using MassTransit;
@@ -17,6 +18,8 @@ public static class DependencyInjection
         services.AddMassTransit(config =>
         {
             config.SetKebabCaseEndpointNameFormatter();
+            config.AddConsumer<OrderPaidConsumer>();
+            config.AddConsumer<OrderCanceledConsumer>();
             config.AddConsumer<UserCreatedConsumer>();
             config.AddConsumer<TransactionRecordedConsumer>();
             config.AddConsumer<UserAuthenticatedConsumer>();
@@ -32,6 +35,17 @@ public static class DependencyInjection
                     h.Password(mqConnection["Password"]);
                 });
 
+                
+                cfg.ReceiveEndpoint("order-paid", e =>
+                {
+                    e.ConfigureConsumer<OrderPaidConsumer>(ctx);
+                });
+                      
+                cfg.ReceiveEndpoint("order-cancel", e =>
+                {
+                    e.ConfigureConsumer<OrderCanceledConsumer>(ctx);
+                });
+                
                 cfg.ReceiveEndpoint("user-created", e =>
                 {
                     e.ConfigureConsumer<UserCreatedConsumer>(ctx);
