@@ -19,6 +19,7 @@ public static class DependencyInjection
         {
             config.SetKebabCaseEndpointNameFormatter();
             config.AddConsumer<OrderPaidConsumer>();
+            config.AddConsumer<WithdrawnConsumer>();
             config.AddConsumer<OrderCanceledConsumer>();
             config.AddConsumer<UserCreatedConsumer>();
             config.AddConsumer<TransactionRecordedConsumer>();
@@ -35,6 +36,10 @@ public static class DependencyInjection
                     h.Password(mqConnection["Password"]);
                 });
 
+                cfg.ReceiveEndpoint("withdrawn", e =>
+                {
+                    e.ConfigureConsumer<WithdrawnConsumer>(ctx);
+                });
                 
                 cfg.ReceiveEndpoint("order-paid", e =>
                 {
