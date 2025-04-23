@@ -34,17 +34,11 @@ public class UserCreatedConsumer(ILogger<UserCreatedConsumer> logger, IEmailServ
             <p>Thông tin tài khoản của bạn:</p>
                 <li><strong>Tên:</strong> {context.Message.Name}</li>
                 <li><strong>Tên đăng nhập:</strong> {context.Message.UserName}</li>
-                <li><strong>Mật khẩu:</strong> {context.Message.DefaultPassword}</li>
+                <li><strong>Mật khẩu mặc định:</strong> {context.Message.DefaultPassword}</li>
                 <li><strong>Công Ty:</strong> {context.Message.CompanyName}</li>
             <p>
-            Vui lòng xác thực tài khoản
+            Để truy cập vào DTP bạn vui lòng xác thực tài khoản
                 <a href=""{context.Message.ConfirmUrl}"">
-                    tại đây
-                </a>
-            </p>
-            <p>
-            Đăng nhập 
-                <a href=""{loginUrl}"">
                     tại đây
                 </a>
             </p>
