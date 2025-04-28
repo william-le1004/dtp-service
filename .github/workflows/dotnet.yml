@@ -1,28 +1,94 @@
-# This workflow will build a .NET project
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
-
-name: .NET
+name: CI/CD Pipeline
 
 on:
-  push:
-    branches: [ "main" ]
   pull_request:
-    branches: [ "main" ]
+    branches:
+      - dev
+  push:
+    branches:
+      - dev
 
 jobs:
-  build:
+  ci-build:
+    name: CI Build & Test
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build API image (no push)
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: Api/Dockerfile
+          push: false
+          tags: ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_IMAGES }}:test
+
+      - name: Run tests
+        run: |
+          echo "Run your test commands here"
+
+  cd-deploy:
+    name: Build & Deploy (Only on Merge)
+    if: github.event_name == 'push'
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: 8.0.x
-    - name: Restore dependencies
-      run: dotnet restore
-    - name: Build
-      run: dotnet build --no-restore
-    - name: Test
-      run: dotnet test --no-build --verbosity normal
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and push API image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: Api/Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_IMAGES }}:latest
+
+      - name: SSH into VPS and deploy
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          password: ${{ secrets.VPS_PASSWORD }}
+          script: |
+            CONTAINER_NAME="dtp-service"
+            IMAGE_NAME="${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_IMAGES }}:latest"
+
+            echo "Pulling latest image..."
+            docker pull $IMAGE_NAME
+
+            echo "Checking if the container is running..."
+            if [ $(docker ps -q -f name=$CONTAINER_NAME) ]; then
+              echo "Stopping existing container..."
+              docker stop $CONTAINER_NAME
+            fi
+
+            echo "Removing old container..."
+            docker rm $CONTAINER_NAME || true
+            
+            echo "Removing old image..."
+            docker images --format "{{.Repository}}:{{.Tag}} {{.ID}}" | grep "${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_IMAGES }}" | grep -v "latest" | awk '{print $2}' | xargs -r docker rmi -f
+
+            echo "Starting new container..."
+            docker run -d \
+              --name $CONTAINER_NAME \
+              -p 5000:5000 -p 5001:5001 \
+              --restart unless-stopped \
+              $IMAGE_NAME
+
+            echo "Deployment completed successfully!"
