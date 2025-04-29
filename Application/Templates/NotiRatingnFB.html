@@ -1,0 +1,152 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nhắc Nhở Đánh Giá Tour - YourTourCompany</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+        }
+
+        .header {
+            background-color: #34a853;
+            padding: 20px;
+            text-align: center;
+            color: white;
+        }
+
+            .header h1 {
+                margin: 0;
+                font-size: 22px;
+            }
+
+        .content {
+            padding: 20px;
+        }
+
+        .feedback-options {
+            background-color: #f9f9f9;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .option {
+            margin: 15px 0;
+        }
+
+        .button {
+            display: inline-block;
+            background-color: #34a853;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-top: 5px;
+            font-weight: bold;
+        }
+
+        .deadline {
+            background-color: #fff3cd;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .contact-info {
+            background-color: #f4f4f4;
+            padding: 15px;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #f9f9f9;
+            color: #666;
+            font-size: 12px;
+        }
+
+        .highlight {
+            font-weight: bold;
+            color: #34a853;
+        }
+
+        @media only screen and (max-width: 600px) {
+            .container {
+                width: 100%;
+            }
+
+            .header h1 {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>[NHẮC NHỚ] Vui lòng gửi phản hồi và đánh giá tour "{{TourTitle}}"</h1>
+        </div>
+
+        <div class="content">
+            <p>Kính chào Anh/Chị <span class="highlight">{{CustomerName}}</span>,</p>
+
+            <p>Cảm ơn Anh/Chị đã tham gia tour <strong>"{{TourTitle}}"</strong> (Mã đặt tour: <strong>{{BookingCode}}</strong>) của chúng tôi từ <strong>{{StartDate}}</strong> đến <strong>{{EndDate}}</strong>. Rất mong Anh/Chị dành 2-3 phút để:</p>
+
+            <div class="feedback-options">
+                <div class="option">
+                    <p>1. <strong>Gửi phản hồi (Feedback)</strong>:</p>
+                    <a href="{{FeedbackLink}}" class="button">GỬI PHẢN HỒI</a>
+                </div>
+
+                <div class="option">
+                    <p>2. <strong>Đánh giá (Rating)</strong>:</p>
+                    <a href="{{RatingLink}}" class="button">ĐÁNH GIÁ NGAY</a>
+                </div>
+            </div>
+
+            <p>Phản hồi và đánh giá của Anh/Chị không chỉ giúp chúng tôi cải thiện chất lượng dịch vụ mà còn hữu ích cho những khách hàng khác khi lựa chọn tour.</p>
+
+            <div class="deadline">
+                <p><strong>Hạn chót gửi ý kiến</strong>: {{FeedbackDeadline}}</p>
+            </div>
+
+            <div class="contact-info">
+                <p>Nếu có bất kỳ thắc mắc hoặc cần hỗ trợ, vui lòng liên hệ:</p>
+                <p>
+                    - Email: <a href="mailto:support@yourtourcompany.com">support@yourtourcompany.com</a><br>
+                    - Hotline: <a href="tel:0123-456-789">0123-456-789</a>
+                </p>
+            </div>
+
+            <p>Chân thành cảm ơn và mong sớm nhận được phản hồi từ Anh/Chị!</p>
+
+            <p>
+                Trân trọng,<br>
+                Đội ngũ chăm sóc khách hàng<br>
+                YourTourCompany
+            </p>
+        </div>
+
+        <div class="footer">
+            <p>© 2025 YourTourCompany. Tất cả các quyền được bảo lưu.</p>
+            <p>Địa chỉ: 123 Đường Du Lịch, Quận 1, TP. Hồ Chí Minh</p>
+        </div>
+    </div>
+</body>
+</html>

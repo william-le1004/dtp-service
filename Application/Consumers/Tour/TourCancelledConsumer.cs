@@ -12,7 +12,7 @@ public class TourCancelledConsumer(
     public async Task Consume(ConsumeContext<TourCancelled> context)
     {
         var message = context.Message;
-        
+
         await service.SendEmailAsync(
             message.CustomerEmail,
             $"DTP-Hủy tour",
@@ -27,7 +27,7 @@ public class TourCancelledConsumer(
                 message.RefundAmount
             )
         );
-        
+
         logger.LogInformation($"Consumed Listened: Tour Cancelled {message.BookingCode}");
     }
 
@@ -51,4 +51,4 @@ public class TourCancelledConsumer(
                  Số tiền hoàn lại: {refundAmount:N0}<br/>
                  Ghi chú: {remark}";
     }
-} 
+}

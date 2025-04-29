@@ -1,5 +1,7 @@
 using Application;
+using Application.Contracts;
 using Infrastructure;
+using static System.Net.WebRequestMethods;
 
 var builder = WebApplication.CreateBuilder(args);
 
