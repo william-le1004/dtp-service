@@ -41,14 +41,145 @@ public class TourCancelledConsumer(
         decimal paidAmount,
         decimal refundAmount)
     {
-        return $@"(DTP): {DateTime.Now:dd/MM/yyyy, HH:mm}<br/>
-                 Công ty: {companyName}<br/>
-                 Tour: {tourTitle}<br/>
-                 Mã đặt: {bookingCode}<br/>
-                 Khách hàng: {customerName}<br/>
-                 Ngày khởi hành: {startDate:dd/MM/yyyy}<br/>
-                 Số tiền đã thanh toán: {paidAmount:N0}<br/>
-                 Số tiền hoàn lại: {refundAmount:N0}<br/>
-                 Ghi chú: {remark}";
+        return $@"<html lang=""vi"">
+            <head>
+                <meta charset=""UTF-8"">
+                <meta name=""viewport"" content=""width=device-width, initial-scale=1.0"">
+                <title>[THÔNG BÁO] Tour ""{tourTitle}"" (Mã: {bookingCode}) đã bị hủy</title>
+                <style>
+                    body {{
+                        font-family: Arial, Helvetica, sans-serif;
+                        line-height: 1.6;
+                        color: #333333;
+                        margin: 0;
+                        padding: 0;
+                    }}
+
+                    .container {{
+                        max-width: 600px;
+                        margin: 0 auto;
+                        padding: 20px;
+                        border: 1px solid #dddddd;
+                    }}
+
+                    .header {{
+                        text-align: center;
+                        padding: 10px;
+                        background-color: #f8f8f8;
+                        border-bottom: 2px solid #0066cc;
+                    }}
+
+                    .content {{
+                        padding: 20px 0;
+                    }}
+
+                    .detail-table {{
+                        width: 100%;
+                        border-collapse: collapse;
+                        margin: 20px 0;
+                    }}
+
+                        .detail-table td {{
+                            padding: 8px;
+                            border-bottom: 1px solid #eeeeee;
+                        }}
+
+                            .detail-table td:first-child {{
+                                width: 40%;
+                                font-weight: bold;
+                            }}
+
+                    .section-title {{
+                        font-weight: bold;
+                        margin-top: 20px;
+                        margin-bottom: 10px;
+                        color: #0066cc;
+                    }}
+
+                    .footer {{
+                        margin-top: 30px;
+                        text-align: center;
+                        font-size: 14px;
+                        color: #666666;
+                        border-top: 1px solid #eeeeee;
+                        padding-top: 20px;
+                    }}
+
+                    .highlight {{
+                        font-weight: bold;
+                        color: #cc0000;
+                    }}
+
+                    .contact-info {{
+                        background-color: #f8f8f8;
+                        padding: 15px;
+                        border-radius: 5px;
+                        margin: 20px 0;
+                    }}
+                </style>
+            </head>
+            <body>
+                <div class=""container"">
+                    <div class=""header"">
+                        <h2>[THÔNG BÁO] Tour ""{tourTitle}"" (Mã: {bookingCode}) đã bị hủy</h2>
+                    </div>
+
+                    <div class=""content"">
+                        <p>Kính chào Anh/Chị {customerName},</p>
+
+                        <p>Chúng tôi rất tiếc phải thông báo rằng tour <strong>""{tourTitle}""</strong> (Mã đặt tour: <strong>{bookingCode}</strong>) mà Anh/Chị đã đăng ký đã <span class=""highlight"">bị hủy</span>.</p>
+
+                        <div class=""section-title"">Thông tin chi tiết:</div>
+                        <table class=""detail-table"">
+                            <tr>
+                                <td>Tên khách hàng</td>
+                                <td>{customerName}</td>
+                            </tr>
+                            <tr>
+                                <td>Mã đặt tour</td>
+                                <td>{bookingCode}</td>
+                            </tr>
+                            <tr>
+                                <td>Tên tour</td>
+                                <td>{tourTitle}</td>
+                            </tr>
+                            <tr>
+                                <td>Ngày khởi hành</td>
+                                <td>{startDate}</td>
+                            </tr>
+                            <tr>
+                                <td>Lý do hủy</td>
+                                <td>{remark}</td>
+                            </tr>
+                            <tr>
+                                <td>Số tiền đã thanh toán</td>
+                                <td>{paidAmount}</td>
+                            </tr>
+                            <tr>
+                                <td>Số tiền hoàn (nếu có)</td>
+                                <td>{refundAmount}</td>
+                            </tr>
+                        </table>
+
+                        <div class=""section-title"">Hướng dẫn tiếp theo:</div>
+                        <p>Anh/Chị vui lòng kiểm tra email/ứng dụng để xác nhận thông tin hoàn tiền.</p>
+                        <p>Nếu có bất kỳ thắc mắc nào, xin liên hệ với chúng tôi:</p>
+
+                        <div class=""contact-info"">
+                            <p><strong>Email:</strong> support@yourtourcompany.com</p>
+                            <p><strong>Hotline:</strong> 0123-456-789</p>
+                        </div>
+
+                        <p>Chúng tôi rất mong được phục vụ Anh/Chị trong những chuyến đi tiếp theo.</p>
+                    </div>
+
+                    <div class=""footer"">
+                        <p>Trân trọng,</p>
+                        <p><strong>Đội ngũ chăm sóc khách hàng</strong></p>
+                        <p>YourTourCompany</p>
+                    </div>
+                </div>
+            </body>
+            </html>]";
     }
 }
