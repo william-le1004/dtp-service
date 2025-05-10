@@ -27,6 +27,7 @@ public static class DependencyInjection
             config.AddConsumer<EmailConfirmedConsumer>();
             config.AddConsumer<PasswordForgetConsumer>();
             config.AddConsumer<TourCancelledConsumer>();
+            config.AddConsumer<WithdrawRejectedConsumer>();
             
             config.UsingRabbitMq((ctx, cfg) =>
             {
@@ -42,6 +43,11 @@ public static class DependencyInjection
                     h.Password("wille");
                 });
 
+                cfg.ReceiveEndpoint("withdrawn-rejected", e =>
+                {
+                    e.ConfigureConsumer<WithdrawRejectedConsumer>(ctx);
+                });
+                
                 cfg.ReceiveEndpoint("withdrawn", e =>
                 {
                     e.ConfigureConsumer<WithdrawnConsumer>(ctx);
