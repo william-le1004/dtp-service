@@ -27,15 +27,27 @@ public static class DependencyInjection
             config.AddConsumer<EmailConfirmedConsumer>();
             config.AddConsumer<PasswordForgetConsumer>();
             config.AddConsumer<TourCancelledConsumer>();
+            config.AddConsumer<WithdrawRejectedConsumer>();
             
             config.UsingRabbitMq((ctx, cfg) =>
             {
-                cfg.Host(mqConnection["Host"], mqConnection["VirtualHost"], h =>
+                // cfg.Host(mqConnection["Host"], mqConnection["VirtualHost"], h =>
+                // {
+                //     h.Username(mqConnection["Username"]);
+                //     h.Password(mqConnection["Password"]);
+                // });
+                
+                cfg.Host("160.187.229.170", h =>
                 {
-                    h.Username(mqConnection["Username"]);
-                    h.Password(mqConnection["Password"]);
+                    h.Username("will-e");
+                    h.Password("wille");
                 });
 
+                cfg.ReceiveEndpoint("withdrawn-rejected", e =>
+                {
+                    e.ConfigureConsumer<WithdrawRejectedConsumer>(ctx);
+                });
+                
                 cfg.ReceiveEndpoint("withdrawn", e =>
                 {
                     e.ConfigureConsumer<WithdrawnConsumer>(ctx);

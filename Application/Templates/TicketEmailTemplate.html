@@ -1,0 +1,228 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vé Điện Tử Tour - YourTourCompany</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333333;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+        }
+
+        .header {
+            background-color: #1a73e8;
+            padding: 20px;
+            text-align: center;
+            color: white;
+        }
+
+            .header h1 {
+                margin: 0;
+                font-size: 24px;
+            }
+
+        .content {
+            padding: 20px;
+        }
+
+        .ticket-info {
+            margin: 20px 0;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+            .ticket-info tr {
+                border-bottom: 1px solid #eeeeee;
+            }
+
+                .ticket-info tr:last-child {
+                    border-bottom: none;
+                }
+
+            .ticket-info td {
+                padding: 10px 5px;
+            }
+
+                .ticket-info td:first-child {
+                    width: 40%;
+                    font-weight: bold;
+                }
+
+        .highlighted-row {
+            background-color: #e8f0fe;
+        }
+
+        .qr-section {
+            text-align: center;
+            margin: 30px 0;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+        }
+
+        .qr-code {
+            margin: 15px auto;
+            width: 150px;
+            height: 150px;
+            background-color: #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .notice {
+            background-color: #fff9e6;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .contact-info {
+            background-color: #f4f4f4;
+            padding: 15px;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #f9f9f9;
+            color: #666;
+            font-size: 12px;
+        }
+
+        @media only screen and (max-width: 600px) {
+            .container {
+                width: 100%;
+            }
+
+            .header h1 {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>VÉ ĐIỆN TỬ TOUR "{{TourTitle}}"</h1>
+        </div>
+
+        <div class="content">
+            <p>Kính chào Anh/Chị <strong>{{CustomerName}}</strong>,</p>
+
+            <p>Cảm ơn Anh/Chị đã đặt vé tour tại YourTourCompany. Dưới đây là thông tin vé điện tử của Anh/Chị:</p>
+
+            <table class="ticket-info">
+                <tr>
+                    <td>Mã vé</td>
+                    <td>: <strong>{{TicketCode}}</strong></td>
+                </tr>
+                <tr>
+                    <td>Mã đặt tour</td>
+                    <td>: {{BookingCode}}</td>
+                </tr>
+                <tr>
+                    <td>Tên khách hàng</td>
+                    <td>: {{CustomerName}}</td>
+                </tr>
+                <tr>
+                    <td>Số điện thoại</td>
+                    <td>: {{PhoneNumber}}</td>
+                </tr>
+                <tr>
+                    <td>Email</td>
+                    <td>: {{Email}}</td>
+                </tr>
+                <tr>
+                    <td>Tên tour</td>
+                    <td>: <strong>{{TourTitle}}</strong></td>
+                </tr>
+                <tr>
+                    <td>Ngày khởi hành</td>
+                    <td>: {{StartDate}}</td>
+                </tr>
+                <tr>
+                    <td>Ngày kết thúc</td>
+                    <td>: {{EndDate}}</td>
+                </tr>
+                <tr class="highlighted-row">
+                    <td colspan="2">
+                        <table style="width:100%; border-collapse: collapse;">
+                            <tr>
+                                <td style="width:33%; padding:10px; text-align:center; border-right:1px solid #d0e0ff; font-weight:bold;">
+                                    Loại vé<br>
+                                    <span style="font-size:16px; color:#1a73e8; font-weight:normal;">{{TicketType}}</span>
+                                </td>
+                                <td style="width:33%; padding:10px; text-align:center; border-right:1px solid #d0e0ff; font-weight:bold;">
+                                    Số lượng vé<br>
+                                    <span style="font-size:16px; color:#1a73e8; font-weight:normal;">{{Quantity}}</span>
+                                </td>
+                                <td style="width:33%; padding:10px; text-align:center; font-weight:bold;">
+                                    Giá vé mỗi vé<br>
+                                    <span style="font-size:16px; color:#1a73e8; font-weight:normal;">{{PricePerUnit}}</span>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Tổng giá vé</td>
+                    <td>: <strong>{{TotalPrice}}</strong></td>
+                </tr>
+                <tr>
+                    <td>Ngày phát hành</td>
+                    <td>: {{IssueDate}}</td>
+                </tr>
+            </table>
+
+            <div class="qr-section">
+                <h3>MÃ QR/BARCODE</h3>
+                <div class="qr-code">
+                    <!-- Placeholder for QR Code -->
+                    <p>{{QRCode}}</p>
+                </div>
+                <p>Vui lòng quét mã này khi check-in</p>
+            </div>
+
+            <div class="notice">
+                <p><strong>Lưu ý quan trọng:</strong></p>
+                <p>Quý khách vui lòng xuất trình vé này (bản in hoặc trên điện thoại) khi đến điểm tập kết.</p>
+            </div>
+
+            <div class="contact-info">
+                <p>Nếu có bất kỳ thắc mắc nào, xin liên hệ với chúng tôi:</p>
+                <p>
+                    - Email: <a href="mailto:support@yourtourcompany.com">support@yourtourcompany.com</a><br>
+                    - Hotline: <a href="tel:0123-456-789">0123-456-789</a>
+                </p>
+            </div>
+
+            <p>Chúc Anh/Chị chuyến đi vui vẻ và nhiều kỷ niệm đẹp!</p>
+
+            <p>
+                Trân trọng,<br>
+                Đội ngũ chăm sóc khách hàng YourTourCompany
+            </p>
+        </div>
+
+        <div class="footer">
+            <p>© 2025 YourTourCompany. Tất cả các quyền được bảo lưu.</p>
+            <p>Địa chỉ: 123 Đường Du Lịch, Quận 1, TP. Hồ Chí Minh</p>
+        </div>
+    </div>
+</body>
+</html>
